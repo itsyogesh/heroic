@@ -1,0 +1,19 @@
+{
+  "name": "heroic",
+  "version": "0.0.1",
+  "description": "A gamer's goodread",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsyogesh/heroic.git"
+  },
+  "author": "Yogesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itsyogesh/heroic/issues"
+  },
+  "homepage": "https://github.com/itsyogesh/heroic#readme"
+}
