@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/itsyogesh/heroic/issues"
   },
-  "homepage": "https://github.com/itsyogesh/heroic#readme"
+  "homepage": "https://github.com/itsyogesh/heroic#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "mongoose": "^4.8.6",
+    "morgan": "^1.8.1"
+  }
 }
