@@ -20,7 +20,7 @@ const GameSchema = new mongoose.Schema({
   },
   slug: {
     type: String,
-    required: true,
+    unique: true,
     index: true
   },
   cover: {

@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import isURL from 'validator/lib/isURL'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+
+import { saveGame } from './actions'
 
 class GameForm extends Component {
 
@@ -8,11 +12,22 @@ class GameForm extends Component {
     title: '',
     cover: '',
     errors: {},
+    loading: false,
+    done: false,
     placeholdeUrl: 'https://d13yacurqjgara.cloudfront.net/users/5031/screenshots/1338909/key-visual.png'
   }
 
   handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value })
+    if(!!this.state.errors[e.target.name]){
+      let errors = Object.assign({}, this.state.errors)
+      delete errors[e.target.name]
+      this.setState({
+        [e.target.name]: e.target.value,
+        errors
+      })
+    } else {
+      this.setState({ [e.target.name]: e.target.value })
+    }
   }
 
   handleSubmit = (e) => {
@@ -22,15 +37,51 @@ class GameForm extends Component {
     let errors = {}
     if (this.state.title === '') errors.title = "Can't be empty"
     if (this.state.cover === '') errors.cover = "Can't be empty"
-    if(this.state.cover && !isURL(this.state.cover)) errors.cover = 'Not a valid URL'
+    else if (!isURL(this.state.cover)) errors.cover = 'Not a valid URL'
 
     this.setState({errors})
+    const isValid = Object.keys(errors).length === 0
+
+    if (isValid) {
+      this.setState({loading: true})
+      const { title, cover } = this.state
+      this.props.saveGame({name: title, cover})
+        .then(() => {
+          this.setState({done: true})
+        })
+        .catch((err) => {
+          console.log('Inside error detail')
+          console.log(err)
+          err.response.json()
+            .then((res) => {
+              console.log('errors are here', res.errors)
+              errors = {...res.errors.details, message: res.errors.message}
+              this.setState({errors, loading: false})
+            })
+        })
+    }
+  }
+
+  renderErrorMessage = (message) => {
+    return (
+      <div className="ui error message">
+        <div className="header">
+          {message.header ? message.header : 'Something Went Wrong'}
+        </div>
+        <p>{message.text}</p>
+      </div>
+    )
   }
 
   render() {
 
-    let renderForm = (
-      <form className='ui form' onSubmit={this.handleSubmit}>
+    const renderForm = (
+      <form
+        className={classnames(
+          'ui form',
+          {error: !!Object.keys(this.state.errors).length}
+        )}
+        onSubmit={this.handleSubmit}>
         <div className={classnames('field', { error: !!this.state.errors.title})}>
           <label htmlFor='title'>Game Title</label>
           <input
@@ -40,7 +91,7 @@ class GameForm extends Component {
             id='title'
           />
         </div>
-        <div className='field'>
+        <div className={classnames('field', { error: !!this.state.errors.cover})}>
           <label htmlFor='cover'>Cover URL</label>
             <input
               name='cover'
@@ -49,8 +100,16 @@ class GameForm extends Component {
               id='cover'
             />
         </div>
+        {!!this.state.errors.message && this.renderErrorMessage({
+          text: this.state.errors.message
+        })}
         <div className='field'>
-          <button className='ui right labeled icon primary button'>
+          <button
+            className={
+              classnames(
+                'ui right labeled icon primary button',
+                {loading: this.state.loading}
+            )}>
             <i className="plus icon"></i>
             Save
           </button>
@@ -58,7 +117,7 @@ class GameForm extends Component {
       </form>
     )
 
-    let renderCard = (
+    const renderCard = (
       <div className="ui centered card">
         <div className="image">
           <img src={this.state.cover ? this.state.cover : this.state.placeholdeUrl} alt='cover'/>
@@ -69,7 +128,7 @@ class GameForm extends Component {
       </div>
     )
 
-    return (
+    const formPage = (
       <div className='ui main container'>
         <div className="ui text container">
           <h2 className='ui center aligned header'>Add a new game</h2>
@@ -91,8 +150,15 @@ class GameForm extends Component {
         </div>
       </div>
     )
+
+    return (
+      <div>
+        {this.state.done ? <Redirect to='/games' /> : formPage}
+      </div>
+    )
   }
 }
 
 
-export default GameForm
+
+export default connect(null, { saveGame })(GameForm)
