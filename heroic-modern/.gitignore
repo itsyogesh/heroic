@@ -1,16 +1,14 @@
 # Dependencies
-**/node_modules/
+node_modules/
 
 # Build outputs
-**/dist/
-**/build/
+dist/
+build/
 
 # Environment files
 .env
 .env.local
 .env.*.local
-**/.env
-**/.env.local
 
 # IDE
 .idea/
@@ -27,7 +25,7 @@ Thumbs.db
 npm-debug.log*
 
 # Testing
-**/coverage/
+coverage/
 
 # Cache
 .cache/

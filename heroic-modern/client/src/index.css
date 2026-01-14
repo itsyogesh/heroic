@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.141 0.005 286);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.141 0.005 286);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.141 0.005 286);
+  --color-primary: oklch(0.546 0.245 263);
+  --color-primary-foreground: oklch(0.969 0.016 294);
+  --color-secondary: oklch(0.967 0.001 286);
+  --color-secondary-foreground: oklch(0.21 0.006 286);
+  --color-muted: oklch(0.967 0.001 286);
+  --color-muted-foreground: oklch(0.553 0.012 286);
+  --color-accent: oklch(0.967 0.001 286);
+  --color-accent-foreground: oklch(0.21 0.006 286);
+  --color-destructive: oklch(0.577 0.245 27);
+  --color-destructive-foreground: oklch(0.969 0.016 294);
+  --color-border: oklch(0.92 0.004 286);
+  --color-input: oklch(0.92 0.004 286);
+  --color-ring: oklch(0.546 0.245 263);
+  --radius: 0.625rem;
+
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Dark mode theme */
+.dark {
+  --color-background: oklch(0.141 0.005 286);
+  --color-foreground: oklch(0.985 0 0);
+  --color-card: oklch(0.141 0.005 286);
+  --color-card-foreground: oklch(0.985 0 0);
+  --color-popover: oklch(0.141 0.005 286);
+  --color-popover-foreground: oklch(0.985 0 0);
+  --color-primary: oklch(0.707 0.165 255);
+  --color-primary-foreground: oklch(0.21 0.006 286);
+  --color-secondary: oklch(0.274 0.006 286);
+  --color-secondary-foreground: oklch(0.985 0 0);
+  --color-muted: oklch(0.274 0.006 286);
+  --color-muted-foreground: oklch(0.705 0.015 286);
+  --color-accent: oklch(0.274 0.006 286);
+  --color-accent-foreground: oklch(0.985 0 0);
+  --color-destructive: oklch(0.704 0.191 22);
+  --color-destructive-foreground: oklch(0.985 0 0);
+  --color-border: oklch(0.274 0.006 286);
+  --color-input: oklch(0.274 0.006 286);
+  --color-ring: oklch(0.707 0.165 255);
+}
